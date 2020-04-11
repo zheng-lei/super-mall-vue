@@ -4,7 +4,7 @@
 :root {
   /*  定义css变量*/
   --color-text: #666;
-  --color-high-text: #ff577;
+  --color-high-text: #ff8198;
   --color-tint: #ff8198;
   --color-background:#fff;
   --font-size: 14px;
@@ -49,4 +49,20 @@ body {
 
 .right {
   float: right;
+}
+
+a:link { 
+  font-size: 12px;
+  color: #000000;
+  text-decoration: none;
+}
+a:visited{
+  font-size: 12px;
+  color: #000000;
+  text-decoration: none;
+}
+a:hover{
+  font-size: 12px;
+  color: #999999;
+  text-decoration: underline;
 }
