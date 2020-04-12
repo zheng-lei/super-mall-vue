@@ -3,60 +3,15 @@
     <nav-bar class="home-nav">
       <div slot="center">购物街</div>
     </nav-bar>
-    <home-swiper :banners="banners"></home-swiper>
-    <recommend-view :recommends="recommends"></recommend-view>
-    <feature-view></feature-view>
-    <tab-control :titles="titles" @itemClick="itemClick"></tab-control>
-    <goods-list :goods="showGoods"></goods-list>
-    <ul>
-      <li>ss</li>
-      <li>ss</li>
-      <li>ss</li>
-      <li>ss</li>
-      <li>ss</li>
-      <li>ss</li>
-      <li>ss</li>
-      <li>ss</li>
-      <li>ss</li>
-      <li>ss</li>
-      <li>ss</li>
-      <li>ss</li>
-      <li>ss</li>
-      <li>ss</li>
-      <li>ss</li>
-      <li>ss</li>
-      <li>ss</li>
-      <li>ss</li>
-      <li>ss</li>
-      <li>ss</li>
-      <li>ss</li>
-      <li>ss</li>
-      <li>ss</li>
-      <li>ss</li>
-      <li>ss</li>
-      <li>ss</li>
-      <li>ss</li>
-      <li>ss</li>
-      <li>ss</li>
-      <li>ss</li>
-      <li>ss</li>
-      <li>ss</li>
-      <li>ss</li>
-      <li>ss</li>
-      <li>ss</li>
-      <li>ss</li>
-      <li>ss</li>
-      <li>ss</li>
-      <li>ss</li>
-      <li>ss</li>
-      <li>ss</li>
-      <li>ss</li>
-      <li>ss</li>
-      <li>ss</li>
-      <li>ss</li>
-      <li>ss</li>
-      <li>ss</li>
-    </ul>
+    <scroll class="content" ref="scroll" :probe-type=
+    "3" @scroll="contentScroll">
+      <home-swiper :banners="banners"></home-swiper>
+      <recommend-view :recommends="recommends"></recommend-view>
+      <feature-view></feature-view>
+      <tab-control :titles="titles" @itemClick="itemClick"></tab-control>
+      <goods-list :goods="showGoods"></goods-list>
+    </scroll>
+    <back-top @click.native="backClick" v-show="isShowBackTop"></back-top>
   </div>
 </template>
 
@@ -66,9 +21,12 @@
   import RecommendView from "./childComps/RecommendView";
   import FeatureView from "./childComps/FeatureView";
   import GoodsList from "components/content/goods/GoodsList"
+  import Scroll from "components/common/scroll/Scroll.vue";
+  import BackTop from "components/content/backTop/BackTop"
 
   import {getHomeMultidata,getHomeGoods} from "network/home";
   import TabControl from "components/content/tabControl/TabControl"
+  
   export default {
       name: "Home",
       components: {
@@ -77,7 +35,9 @@
         RecommendView,
         FeatureView,
         GoodsList,
-        TabControl
+        TabControl,
+        Scroll,
+        BackTop
       },
       data() {
         return {
@@ -89,7 +49,8 @@
             "new": { page: 0, list: [] },
             "sell": { page: 0, list: [] }
           },
-          currentType: "pop"
+          currentType: "pop",
+          isShowBackTop: false
         }
       },
       computed: {
@@ -119,6 +80,13 @@
               break;
           }
         },
+        backClick() {
+          this.$refs.scroll.scrollTo(0,0,500)
+        },
+        contentScroll(position) {
+          console.log(position)
+          this.isShowBackTop = -position.y > 1000 ? true : false;
+        },
         // 网络请求相关
         getHomeMultidata() {
           getHomeMultidata().then(res => {
@@ -137,9 +105,10 @@
   }
 </script>
 
-<style>
+<style scoped>
   #home {
-    padding-top: 44px;
+    /* padding-top: 44px; */
+    height: 100vh;
   }
   .home-nav {
     background-color: var(--color-tint);
@@ -153,5 +122,10 @@
   .tab-control{
     position: sticky;
     top: 44px;
+  }
+  .content{
+    margin-top: 44px;
+    height: calc(100% - 93px);
+    overflow: hidden;
   }
 </style> 

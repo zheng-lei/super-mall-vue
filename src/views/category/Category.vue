@@ -100,7 +100,7 @@
     <li>分类列表97</li>
     <li>分类列表98</li>
     <li>分类列表99</li>
-    <li>分类列表100</li>
+    <li>分类列表100{{ tt }}</li>
   </ul>
 </div>
 </template>
@@ -112,17 +112,21 @@
       name: "Category",
       data(){
         return {
+          tt: "1x",
           scroll: null
         }
       },
       mounted(){
         //默认情况下BScroll是不实时监听滚动位置的
         this.scroll = new BScroll(this.$refs.wrapper,{
-          proberType: 2
+          proberType: 3
         });
-        this.scroll.on("scroll", (position) => {
-          console.log(position)
-        })
+        var self = this;
+        function onScroll() {
+          self.tt = 'adhuihduiahsd'
+          console.log(self.tt)
+        }
+        this.scroll.on('flick', onScroll)
       }
   }
 </script>
