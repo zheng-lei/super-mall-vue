@@ -131,10 +131,6 @@
     right: 0;
     z-index: 999;
   }
-  .tab-control{
-    position: sticky;
-    top: 44px;
-  }
   .wrapper-content{
     margin-top: 44px;
     height: calc(100% - 93px);
