@@ -11,6 +11,7 @@
         <goods-list :goods="recommends" ref="recommend"></goods-list>
       </scroll>
       <detail-bottom-bar @addCart="addToCart"></detail-bottom-bar>
+      <!-- <toast :message="message" :show="show"></toast> -->
   </div>
 </template>
 
@@ -26,10 +27,13 @@
 
     import Scroll from "components/common/scroll/Scroll"
     import GoodsList from "components/content/goods/GoodsList"
+    // import Toast from 'components/common/toast/Toast'
 
     import {getDetail, getRecommend, Goods, Shop, GoodsParam} from "network/detail"
     import {debounce} from "common/utils"
     import {itemListenerMixin} from "common/mixin"
+
+    import {mapActions} from 'vuex'
     export default {
         name: "Detail",
         components: {
@@ -42,7 +46,8 @@
             DetailParamInfo,
             DetailCommentInfo,
             GoodsList,
-            DetailBottomBar
+            DetailBottomBar,
+            // Toast
         },
         mixins: [itemListenerMixin],
         data() {
@@ -57,7 +62,9 @@
                 recommends: [],
                 themeTopYs: [],
                 getThemeY: null,
-                currentIndex: 0
+                currentIndex: 0,
+                // message: "",
+                // show: false
             }
         },
         created() {
@@ -105,6 +112,7 @@
             },50)
         },
         methods: {
+            ...mapActions(['addCart']),
             imageLoad() {
                 this.$refs.scroll.refresh();
                 this.getThemeY();
@@ -133,7 +141,20 @@
                 product.price = this.goods.realPrice;
                 product.iid = this.iid;
                 //2.将商品添加到购物车
-                this.$store.dispatch('addCart', product);
+                this.addCart(product).then(res => {
+                    // this.show = true;
+                    // this.message = res;
+                    // setTimeout(() => {
+                    //     this.show = false;
+                    //     this.message = "";
+                    // },1500)
+                    this.$toast.show(res);
+                })
+                // this.$store.dispatch('addCart', product).then(res => {
+                //     console.log(res)
+                // });
+
+              
             }
         },
         mounted() {
