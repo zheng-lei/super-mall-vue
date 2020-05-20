@@ -1,5 +1,5 @@
-B站教学视频跟做项目
 # super-mall-vue
+B站教学视频跟做项目
 
 ## Project setup
 ```
